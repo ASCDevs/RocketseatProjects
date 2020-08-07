@@ -6,6 +6,7 @@ import './styles.css';
 
 interface PageHeaderProps {
     title:string;
+    description?:string;
 }
 
 //Pode-se escrever tmb PageHeader: React.FC
@@ -21,6 +22,7 @@ const PageHeader: React.FunctionComponent<PageHeaderProps> = (props) => {
 
             <div className="header-content">
                 <strong>{props.title}</strong>
+                {props.description && <p>{props.description}</p>}
                 {props.children}
             </div>
             

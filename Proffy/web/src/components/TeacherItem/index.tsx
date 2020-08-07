@@ -1,32 +1,48 @@
 import React from 'react';
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 import './style.css';
+import api from '../../services/api';
 
-function TeacherItem(){
+export interface Teacher {
+    id: number;
+    avatar: string;
+    bio: string;
+    cost: number;
+    name: string;
+    subject: string;
+    whatsapp: string;
+};
+interface TeacherItemProps {
+    teacher: Teacher;
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({teacher})=>{
+
+    function createNewConnection(){
+        api.post('/connections',{
+            user_id: teacher.id,
+        });
+    }
+
     return (
         <article className="teacher-item">
             <header>
-                <img src="https://avatars3.githubusercontent.com/u/58276960?s=460&u=4c0630310c7fd5b97399a41c9df8b6a12a00ae0d&v=4" alt="Alexandre Santos"/>
+                <img src={teacher.avatar} alt={teacher.name}/>
                     <div>
-                        <strong>Alexandre Santos</strong>
-                        <span>Algoritmos</span>
+                        <strong>{teacher.name}</strong>
+                        <span>{teacher.subject}</span>
                     </div>
             </header>
-            <p>
-                Expert em solução de problemas.
-                <br/><br/>
-                Da aulas de algoritmos, ajudando a implementar uma melhor lógica na elaboração de softwares,
-                trazendo um método inovador de organização de idéias, ja ajudou muitos alunos.
-            </p>
+            <p>{teacher.bio}</p>
             <footer>
                 <p>
                     Preço/hora
-                    <strong>R$ 30,00</strong>
+                    <strong>R$ {teacher.cost}</strong>
                 </p>
-                <button type="button">
+                <a target="_blank" onClick={createNewConnection} href={`https://wa.me/${teacher.whatsapp}`}>
                     <img src={whatsappIcon} alt="Whatsapp"/>
                     Entrar em contato
-                </button>
+                </a>
             </footer>
         </article>
     );
